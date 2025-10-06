@@ -1,7 +1,12 @@
 <app-default-login-layout
-title = "Login into your account"
-primaryBtnText = "Login Now"
-secondaryBtnText = "Sigup Now"
->
+  title="Login into your account"
+  primaryBtnText="Login Now"
+  secondaryBtnText="Sigup Now">
+
+  <form [formGroup]="loginForm">
+    <app-primary-input>
+      <img src="/svg/email-icon.svg">
+    </app-primary-input>
+  </form>
 
 </app-default-login-layout>
