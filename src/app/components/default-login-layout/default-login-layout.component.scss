@@ -55,16 +55,17 @@ main {
       align-items: center;
       display: flex;
       font-size: 14px;
-      color: $gray-bg;
+      color: $primary-color;
       font-weight: 400;
       gap: 20px;
       text-transform: uppercase ;
+      width: 100%;
 
       div {
         min-width: 50px;
         width: 100%;
         height: 1px;
-        background-color:$gray-bg ;
+        background-color:$primary-color ;
       }
     }
 
@@ -75,8 +76,12 @@ main {
       font-weight: 500px;
       border: none;
       background-color: transparent;
-      cursor: pointer;
       padding: 12px 24px;
+      cursor: pointer;
+
+      &:disabled {
+        opacity: 0.6;
+      }
 
 
       &.btn-primary {
