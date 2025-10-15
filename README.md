@@ -1,59 +1,134 @@
-# LoginPage
+# Login Page Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.0.
+## Visão Geral do Projeto
+Este projeto é o **frontend** de uma aplicação de login simples, desenvolvido em **Angular**, consumindo a **API Spring Boot** do backend para autenticação de usuários via **JWT token**.  
+O objetivo é fornecer uma interface limpa e funcional para login e acesso a rotas protegidas.
 
-## Development server
+---
 
-To start a local development server, run:
+## Tecnologias Utilizadas
+- **Angular 15+**
+- **TypeScript**
+- **Angular CLI**
+- **RxJS**
+- **Bootstrap / CSS**
+- **HttpClient (Angular)**
 
+---
+
+## Estrutura do Projeto
+src/
+├── app/
+│ ├── components/
+│ │ └── login/ # Componente de Login
+│ ├── services/
+│ │ └── auth.service.ts # Serviço de autenticação
+│ ├── guards/
+│ │ └── auth.guard.ts # Proteção de rotas
+│ ├── app-routing.module.ts
+│ └── app.module.ts
+└── assets/
+
+- **Components:** Contém os componentes da interface, como formulário de login.  
+- **Services:** Serviços Angular para comunicação com a API backend.  
+- **Guards:** Protege rotas que necessitam de autenticação.  
+- **Routing Module:** Gerencia rotas públicas e protegidas.  
+
+---
+
+## Fluxo de Autenticação (JWT)
+1. Usuário digita `email` e `password` no formulário de login.  
+2. O **LoginComponent** chama o **AuthService** para enviar a requisição POST para o backend:  
+POST http://localhost:8080/auth/login
+
+3. Backend retorna um **JWT token** se as credenciais forem válidas.  
+4. O token é armazenado no **localStorage** ou **sessionStorage**.  
+5. Para acessar rotas protegidas, o **AuthGuard** adiciona o token no header `Authorization: Bearer <token>`.
+
+---
+
+## Serviços Principais
+### AuthService
+- `login(credentials: {email, password})` → Faz requisição ao backend e salva token.  
+- `logout()` → Remove token do storage.  
+- `isLoggedIn()` → Retorna true se houver token válido.
+
+### AuthGuard
+- Protege rotas que necessitam de autenticação.  
+- Redireciona para a página de login caso o usuário não esteja autenticado.
+
+---
+
+## Como Executar o Projeto Localmente
+
+### Pré-requisitos
+- Node.js 18+  
+- Angular CLI 15+  
+- Backend rodando em `http://localhost:8080`  
+
+### Passos para execução
+1. Clone o repositório:
 ```bash
+git clone https://github.com/luizgabb/login-page-fullstack.git
+Entre na pasta do projeto:
+
+bash
+Copiar código
+cd login-page-fullstack
+Instale as dependências:
+
+bash
+Copiar código
+npm install
+Rode o projeto:
+
+bash
+Copiar código
 ng serve
-```
+Acesse no navegador: http://localhost:4200
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Configurações / Variáveis de Ambiente
+Crie um arquivo src/environments/environment.ts com a URL do backend:
 
-## Code scaffolding
+typescript
+Copiar código
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:8080'
+};
+Para produção, use environment.prod.ts com a URL do servidor.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Integração com Backend
+Endpoint de login: POST /auth/login
 
-```bash
-ng generate component component-name
-```
+Endpoint de usuário logado: GET /users/me (precisa do header Authorization: Bearer <token>)
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+O frontend deve armazenar o token retornado e enviar em todas requisições protegidas.
 
-```bash
-ng generate --help
-```
+Exemplo de requisição com HttpClient:
 
-## Building
+typescript
+Copiar código
+this.http.get(`${environment.apiUrl}/users/me`, {
+  headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+});
+Boas Práticas Implementadas
+Guardas de rotas para proteger páginas privadas.
 
-To build the project run:
+Armazenamento seguro do JWT (localStorage).
 
-```bash
-ng build
-```
+Serviço único de autenticação para centralizar lógica.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Componentização limpa do formulário de login.
 
-## Running unit tests
+Possíveis Melhorias Futuras
+Validação avançada de formulário com mensagens de erro detalhadas.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Tela de cadastro de usuários (integrando com backend).
 
-```bash
-ng test
-```
+Refresh token para manter sessão ativa sem login constante.
 
-## Running end-to-end tests
+Design responsivo completo com Angular Material ou Tailwind CSS.
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Licença
+Este projeto é open source, livre para uso e estudo.
