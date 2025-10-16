@@ -16,19 +16,6 @@ O objetivo é fornecer uma interface limpa e funcional para login e acesso a rot
 
 ---
 
-## Estrutura do Projeto
-src/
-├── app/
-│ ├── components/
-│ │ └── login/ # Componente de Login
-│ ├── services/
-│ │ └── auth.service.ts # Serviço de autenticação
-│ ├── guards/
-│ │ └── auth.guard.ts # Proteção de rotas
-│ ├── app-routing.module.ts
-│ └── app.module.ts
-└── assets/
-
 - **Components:** Contém os componentes da interface, como formulário de login.  
 - **Services:** Serviços Angular para comunicação com a API backend.  
 - **Guards:** Protege rotas que necessitam de autenticação.  
